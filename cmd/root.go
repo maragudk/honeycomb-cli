@@ -7,24 +7,32 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "honeycomb-cli",
-	Short: "A CLI for the Honeycomb.io API",
-	Long:  "A command-line interface for interacting with the Honeycomb.io observability platform.",
+// NewRootCommand creates a new root command with all subcommands registered.
+func NewRootCommand() *cobra.Command {
+	root := &cobra.Command{
+		Use:           "honeycomb-cli",
+		Short:         "A CLI for the Honeycomb.io API",
+		Long:          "A command-line interface for interacting with the Honeycomb.io observability platform.",
+		SilenceUsage:  true,
+		SilenceErrors: true,
+	}
+
+	root.PersistentFlags().String("api-key", "", "Honeycomb API key (or set HONEYCOMB_API_KEY)")
+	root.PersistentFlags().String("api-url", "https://api.honeycomb.io", "Honeycomb API URL (or set HONEYCOMB_API_URL)")
+
+	root.AddCommand(newVersionCommand())
+	root.AddCommand(newAuthCommand())
+
+	return root
 }
 
 // Execute the root command and return an exit code.
 func Execute() int {
-	if err := rootCmd.Execute(); err != nil {
+	if err := NewRootCommand().Execute(); err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		return 1
 	}
 	return 0
-}
-
-func init() {
-	rootCmd.PersistentFlags().String("api-key", "", "Honeycomb API key (or set HONEYCOMB_API_KEY)")
-	rootCmd.PersistentFlags().String("api-url", "https://api.honeycomb.io", "Honeycomb API URL (or set HONEYCOMB_API_URL)")
 }
 
 // apiKey returns the API key from the flag or environment variable.
