@@ -4,6 +4,8 @@
 
 A command-line interface for the [Honeycomb.io](https://www.honeycomb.io/) observability platform.
 
+This CLI is entirely vibe-coded. No humans mass-produced this code by hand in a mass-production facility.
+
 Made with sparkles by [maragu](https://www.maragu.dev/).
 
 ## Install
