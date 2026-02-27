@@ -28,6 +28,7 @@ func NewRootCommand() *cobra.Command {
 	root.AddCommand(newMarkersCommand())
 	root.AddCommand(newColumnsCommand())
 	root.AddCommand(newQueryCommand())
+	root.AddCommand(newSLOsCommand())
 
 	return root
 }
