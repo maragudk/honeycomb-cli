@@ -5,6 +5,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+
+	"github.com/maragudk/honeycomb-cli/honeycomb"
 )
 
 // NewRootCommand creates a new root command with all subcommands registered.
@@ -22,6 +24,7 @@ func NewRootCommand() *cobra.Command {
 
 	root.AddCommand(newVersionCommand())
 	root.AddCommand(newAuthCommand())
+	root.AddCommand(newDatasetsCommand())
 
 	return root
 }
@@ -54,4 +57,9 @@ func apiURL(cmd *cobra.Command) string {
 		return envURL
 	}
 	return url
+}
+
+// newClient creates a new Honeycomb API client from the command's flags.
+func newClient(cmd *cobra.Command) *honeycomb.Client {
+	return honeycomb.NewClient(apiKey(cmd), honeycomb.WithBaseURL(apiURL(cmd)))
 }
